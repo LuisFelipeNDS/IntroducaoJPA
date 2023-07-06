@@ -21,14 +21,17 @@ public class Programa {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("exemplo-jpa");
 		EntityManager em = emf.createEntityManager();
 		
-		em.getTransaction().begin(); //Iniciar uma transação no DB
-		em.persist(p1); //Inserir
-		em.persist(p2); //Inserir
-		em.persist(p3); //Inserir
-		em.getTransaction().commit(); //confirmar as alteraões no DB
+		Pessoa p = em.find(Pessoa.class, 2); //Busca no DB
 		
-		System.out.println("Dados inseridos");
+		em.getTransaction().begin();
+		em.remove(p);	// Para remover sempre tem que buscar o objeto
+		//e dpois removelo assim o objeto fica monitorado e não destacado
+		em.getTransaction().commit();
 		
+		System.out.println("Feito");
+		
+		em.clear();
+		emf.close();
 	}
 
 }
